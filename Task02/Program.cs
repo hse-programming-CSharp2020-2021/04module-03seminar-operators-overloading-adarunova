@@ -28,10 +28,89 @@
 
 namespace Task02
 {
+    /// <summary>
+    /// A state.
+    /// </summary>
     class State
     {
-        public decimal Population { get; set; }
-        public decimal Area { get; set; }
+        // A population.
+        private decimal _population;
+
+        // An area.
+        private decimal _area;
+
+        /// <summary>
+        /// A population.
+        /// </summary>
+        public decimal Population
+        {
+            get => _population;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException();
+                }
+                _population = value;
+            }
+        }
+
+        /// <summary>
+        /// An area.
+        /// </summary>
+        public decimal Area
+        {
+            get => _area;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException();
+                }
+                _area = value;
+            }
+        }
+
+        /// <summary>
+        /// Unite states.
+        /// </summary>
+        /// <param name="a">The first state.</param>
+        /// <param name="b">The second state.</param>
+        /// <returns>United states.</returns>
+        public static State operator +(State a, State b)
+        {
+            return new State { Population = a.Population + b.Population, Area = a.Area + b.Area };
+        }
+
+
+        /// <summary>
+        /// Compare two states.
+        /// </summary>
+        /// <param name="a">The first state.</param>
+        /// <param name="b">The second state.</param>
+        /// <returns>True, if the density of the first state is bigger; otherwise, false.</returns>
+        public static bool operator >(State a, State b)
+        {
+            return a.Population / a.Area > b.Population / b.Area;
+        }
+
+
+        /// <summary>
+        /// Compare two states.
+        /// </summary>
+        /// <param name="a">The first state.</param>
+        /// <param name="b">The second state.</param>
+        /// <returns>True, if the density of the second state is bigger; otherwise, false.</returns>
+        public static bool operator <(State a, State b)
+        {
+            return a.Population / a.Area < b.Population / b.Area;
+        }
+
+
+        public override string ToString()
+        {
+            return $"{Area} {Population}";
+        }
     }
 
     class MainClass
@@ -41,9 +120,9 @@ namespace Task02
             string[] strs = Console.ReadLine().Split();
             try
             {
-                State state1 = new State { Area = int.Parse(strs[0]), Population = int.Parse(strs[1]) };
+                var state1 = new State { Area = int.Parse(strs[0]), Population = int.Parse(strs[1]) };
                 strs = Console.ReadLine().Split();
-                State state2 = new State { Area = int.Parse(strs[0]), Population = int.Parse(strs[1]) };
+                var state2 = new State { Area = int.Parse(strs[0]), Population = int.Parse(strs[1]) };
 
                 if (state1 > state2)
                 {
@@ -54,13 +133,14 @@ namespace Task02
                     Console.WriteLine(state2);
                 }
 
-                State state3 = state1 + state2;
+                var state3 = state1 + state2;
+
+                Console.WriteLine(state3);
             }
             catch (ArgumentException)
             {
                 Console.WriteLine("error");
             }
-            Console.WriteLine(state3);
         }
     }
 }

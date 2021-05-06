@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 /*
 Источник: https://metanit.com/
@@ -27,18 +28,44 @@ namespace Task04
     class Celcius
     {
         public double Gradus { get; set; }
+
+        public static explicit operator Celcius(Fahrenheit degree)
+        {
+            return new Celcius { Gradus = 5 * (degree.Gradus - 32) / 9 };
+        }
+
+        public override string ToString()
+        {
+            return Gradus.ToString("F2", CultureInfo.GetCultureInfo("ru-RU"));
+        }
     }
 
     class Fahrenheit
     {
         public double Gradus { get; set; }
+
+        public static explicit operator Fahrenheit(Celcius degree)
+        {
+            return new Fahrenheit { Gradus = 9 * degree.Gradus / 5 + 32 };
+        }
+
+        public override string ToString()
+        {
+            return Gradus.ToString("F2", CultureInfo.GetCultureInfo("ru-RU"));
+        }
     }
 
     class MainClass
     {
         public static void Main(string[] args)
         {
+            CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
 
+            var fahrenheit = new Fahrenheit { Gradus = double.Parse(Console.ReadLine()) };
+            var celcius = new Celcius { Gradus = double.Parse(Console.ReadLine()) };
+
+            Console.WriteLine((Celcius)fahrenheit);
+            Console.WriteLine((Fahrenheit)celcius);
         }
     }
 }

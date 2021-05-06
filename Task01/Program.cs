@@ -21,17 +21,79 @@
 
 namespace Task01
 {
+    /// <summary>
+    /// A bread.
+    /// </summary>
     class Bread
     {
-        public int Weight { get; set; }
+        // Bread weight.
+        private int _weight;
+
+        /// <summary>
+        /// Bread weight.
+        /// </summary>
+        public int Weight
+        {
+            get => _weight;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException();
+                }
+                _weight = value;
+            }
+        }
+
+        /// <summary>
+        /// Make a sandwich.
+        /// </summary>
+        /// <param name="bread">A bread.</param>
+        /// <param name="butter">A butter.</param>
+        /// <returns>A sandwich.</returns>
+        public static Sandwich operator +(Bread bread, Butter butter)
+        {
+            return new Sandwich { Weight = bread.Weight + butter.Weight };
+        }
     }
+
+
+    /// <summary>
+    /// Butter.
+    /// </summary>
     class Butter
     {
-        public int Weight { get; set; }
+        // Butter weight.
+        private int _weight;
+
+        /// <summary>
+        /// Butter weight.
+        /// </summary>
+        public int Weight
+        {
+            get => _weight;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException();
+                }
+                _weight = value;
+            }
+        }
     }
+
+
+    /// <summary>
+    /// A sandwich.
+    /// </summary>
     class Sandwich
     {
+        /// <summary>
+        /// A sandwich weight.
+        /// </summary>
         public int Weight { get; set; }
+
     }
 
     class MainClass
@@ -41,15 +103,15 @@ namespace Task01
             string[] strs = Console.ReadLine().Split();
             try
             {
-                Bread bread = new Bread { Weight = int.Parse(strs[0]) };
-                Butter butter = new Butter { Weight = int.Parse(strs[1]) };
-                Sandwich sandwich = bread + butter;
+                var bread = new Bread { Weight = int.Parse(strs[0]) };
+                var butter = new Butter { Weight = int.Parse(strs[1]) };
+                var sandwich = bread + butter;
+                Console.WriteLine(sandwich.Weight);
             }
             catch (ArgumentException)
             {
                 Console.WriteLine("error");
             }
-            Console.WriteLine(sandwich.Weight);
         }
     }
 }

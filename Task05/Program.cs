@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 /*
 Источник: https://metanit.com/
@@ -28,11 +29,60 @@ namespace Task05
 {
     class Dollar
     {
-        public decimal Sum { get; set; }
+        private decimal _sum;
+
+        public decimal Sum
+        {
+            get => _sum;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException();
+                }
+                _sum = value;
+            }
+        }
+
+        public static explicit operator Euro(Dollar dollar)
+        {
+            return new Euro { Sum = dollar.Sum / 1.14m };
+        }
+
+        public override string ToString()
+        {
+            return Sum.ToString("F2", CultureInfo.GetCultureInfo("ru-RU"));
+        }
+
     }
+
+
     class Euro
     {
-        public decimal Sum { get; set; }
+        private decimal _sum;
+
+        public decimal Sum
+        {
+            get => _sum;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException();
+                }
+                _sum = value;
+            }
+        }
+
+        public static implicit operator Dollar(Euro euro)
+        {
+            return new Dollar { Sum = euro.Sum * 1.14m };
+        }
+
+        public override string ToString()
+        {
+            return Sum.ToString("F2", CultureInfo.GetCultureInfo("ru-RU"));
+        }
     }
 
     class MainClass
@@ -41,7 +91,15 @@ namespace Task05
         {
             try
             {
+                CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
 
+                var dollar = new Dollar { Sum = decimal.Parse(Console.ReadLine()) };
+                var euro = new Euro { Sum = decimal.Parse(Console.ReadLine()) };
+
+                Console.WriteLine((Euro)dollar);
+
+                dollar = euro;
+                Console.WriteLine(dollar);
             }
             catch (ArgumentException)
             {
