@@ -67,6 +67,11 @@ namespace Task03
             int minute = int.Parse(Console.ReadLine());
             try
             {
+                if (minute < 0)
+                {
+                    throw new ArgumentException();
+                }
+
                 var clock = new Clock { Hours = int.Parse(Console.ReadLine()) };
 
                 Console.WriteLine(minute);

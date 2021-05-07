@@ -91,7 +91,7 @@ namespace Task02
         /// <returns>True, if the density of the first state is bigger; otherwise, false.</returns>
         public static bool operator >(State a, State b)
         {
-            return a.Population / a.Area > b.Population / b.Area;
+            return a.Population / a.Area < b.Population / b.Area;
         }
 
 
@@ -103,7 +103,7 @@ namespace Task02
         /// <returns>True, if the density of the second state is bigger; otherwise, false.</returns>
         public static bool operator <(State a, State b)
         {
-            return a.Population / a.Area < b.Population / b.Area;
+            return a.Population / a.Area > b.Population / b.Area;
         }
 
 
@@ -120,10 +120,8 @@ namespace Task02
             string[] strs = Console.ReadLine().Split();
             try
             {
-                Console.WriteLine(strs[0] + " " + strs[1]);
                 var state1 = new State { Area = int.Parse(strs[0]), Population = int.Parse(strs[1]) };
                 strs = Console.ReadLine().Split();
-                Console.WriteLine(strs[0] + " " + strs[1]);
                 var state2 = new State { Area = int.Parse(strs[0]), Population = int.Parse(strs[1]) };
 
                 if (state1 > state2)
